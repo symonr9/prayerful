@@ -22,14 +22,24 @@ export const useStyles = makeStyles({
     introTitle: {
         fontFamily: fonts[1],
         fontSize: '3em',
-        color: colors[5],
+        color: colors[4],
         fontWeight: 'bold',
         marginBottom: '0.25em',
+        marginTop: '2em'
     },
     introText: {
         fontFamily: fonts[2],
         fontSize: '1.5em',
         marginLeft: '1.5em'
+    },
+    homeBtn: {
+        fontFamily: fonts[3],
+        fontSize: '1.5em',
+        border: 'solid 0.1em' + colors[1],
+        backgroundColor: colors[3],
+        borderRadius: '0.25em',
+        margin: '0.5em',
+        boxShadow: '0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22)'
     },
     homeSpacingDiv: {
         marginTop: '20em'
@@ -40,60 +50,12 @@ export const useStyles = makeStyles({
     endPaper: {
         marginBottom: '10em'
     },
-    paperAnimation: {
-        borderRadius: '1em',
-        
-        animationName: '$paper-animation',
-        animationDuration: '1.5s',
-        animationFillMode: 'forwards',
-        animationTimingFunction: 'ease-in-out'
+    paperSmall: {
+        fontSize: '0.8em',
+        borderRadius: '0.4em',
+        margin: '1em',
+        border: 'solid 0.2em ' + colors[1],
+        backgroundColor: colors[2],
+        padding: '1em'
     },
-    '@keyframes paper-animation': {
-        '0%': {
-            fontSize: '2em',
-            border: 'solid 0.025em #3E92CC',
-            backgroundColor: colors[2],
-        },  
-        '70%': {
-            fontSize: '1em',
-            padding: '4em',
-            margin: '6em',
-            marginLeft: '8em',
-            marginRight: '8em',
-            border: 'solid 0.75em ' + colors[2],
-            backgroundColor: colors[1]
-        },
-        '100%': {
-            padding: '2em',
-            backgroundColor: colors[3],
-        }
-    },
-    mobilePaperAnimation: {
-        borderRadius: '1em',
-        
-        animationName: '$mobile-paper-animation',
-        animationDuration: '1.5s',
-        animationFillMode: 'forwards',
-        animationTimingFunction: 'ease-in-out'
-    },
-    '@keyframes mobile-paper-animation': {
-        '0%': {
-            fontSize: '1.25em',
-            border: 'solid 0.025em #3E92CC',
-            backgroundColor: colors[2],
-        },  
-        '70%': {
-            fontSize: '0.5em',
-            padding: '6em',
-            border: 'solid 0.75em ' + colors[2],
-            backgroundColor: colors[1]
-        },
-        '100%': {
-            padding: '3em',
-            fontSize: '0.75em',
-            marginLeft: '1em',
-            marginRight: '2em',
-            backgroundColor: colors[3],
-        }
-      },
 });

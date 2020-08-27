@@ -7,14 +7,16 @@
 
  /* Library Imports ****************************************************/
  import React, { useState, useEffect } from "react";
- import { Grow, Grid, Paper } from "@material-ui/core";
+ import { Button, Grow, Grid, Paper, CircularProgress } from "@material-ui/core";
 /**********************************************************************/
 
 /* Project Imports ****************************************************/
+import { getData } from "../../services/api";
+import { getServerURL } from "../../config/config";
+
 import { useCommonStyles } from "../../assets/common";
 import { useStyles } from "./exports";
 /**********************************************************************/
-
 
 /**********************************************************************
  * Function Name: Home
@@ -25,6 +27,9 @@ import { useStyles } from "./exports";
 const Home = () => {
   const classes = useStyles();
   const common = useCommonStyles();
+
+    //Data type for these hooks are arrays.
+    const [prayers, setPrayers] = useState(null);
 
   /* Mobile View Handler ************************************************/
   const [isMobileView, setIsMobileView] = useState(
@@ -38,18 +43,69 @@ const Home = () => {
   }, []);
   /**********************************************************************/
 
+  /**********************************************************************
+   * Function Name: fetchData
+   * Parameters: isSubscribed variable ensures that the component isn't
+   * loaded until after the fetch request is completed.
+   * Description: Fetches the data of the items being looked at. 
+   * Notes: None
+   **********************************************************************/
+  const fetchData = isSubscribed => {
+    getData(getServerURL("prayers"), response => {
+      console.log("Response: " + response);
+      if (isSubscribed) {
+        const items = response;
+        setPrayers(items);
+      }
+    });
+  };
+
+  //Run fetchData on the first render. When the second parameter is an 
+  //empty array, the useEffect function will only be executed on page load.
+  useEffect(() => {
+    let isSubscribed = true;
+    isSubscribed && fetchData(isSubscribed);
+    return () => (isSubscribed = false);
+  }, []);
+
   const body = (
     <Grid container>
       <Grid item xs={12}>
-          <Paper className={`${classes.homePaper} ${(!isMobileView && classes.paperAnimation || (isMobileView && classes.mobilePaperAnimation))}`} elevation="12">
-            <div className={classes.introTitle}><b>Prayerful</b></div>
-          </Paper>
-          <Paper className={`${classes.homePaper} ${(!isMobileView && classes.paperAnimation || (isMobileView && classes.mobilePaperAnimation))}`} elevation="12">
+          <div className={classes.introTitle}><b>Prayerful</b></div>
+        
             <div className={classes.introText}>
-              <h2>Prayer App</h2>
-              This is a progressive web application built by me, Symon.<br/><br/>
+              <h2>a little app to organize your prayers :)</h2>
+              
+              <h2>What would you like to do?</h2>
+
+
+              <Button className={classes.homeBtn} variant="filled">Join a group</Button>
+              <Button className={classes.homeBtn} variant="filled">Ask for prayer</Button>
+              <Button className={classes.homeBtn} variant="filled">Pray for someone</Button>
+
+              <div className={common.containerDiv}>
+                {(prayers &&
+                  prayers.map((prayer, index) => {
+                      return (
+                        <Paper className={`${classes.homePaper} ${(!isMobileView && classes.paperSmall || (isMobileView && classes.mobilePaperAnimation))}`} elevation="12">
+                            <div> {prayer.text} </div>
+                            {prayer.notes}<br/>
+                            {prayer.groups}<br/>
+                            {prayer.image}<br/>
+                            {prayer.type}<br/>
+                            {prayer.isPublic}<br/>
+                            {prayer.createdBy}<br/>
+                          </Paper>
+                      );
+                  })) ||
+                  (!prayers && (
+                    <div>
+                      <CircularProgress />
+                    </div>
+                  ))
+                }
+              </div>
             </div>
-          </Paper>
       </Grid>
     </Grid>
   );

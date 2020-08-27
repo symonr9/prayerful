@@ -22,26 +22,18 @@ import WebFont from 'webfontloader';
  */
 
 
- /**
-  * rgb(255, 243, 41) --> yellow
-  * rgb(146, 41, 255) --> purple
-  * rgb(48,48,48) --> dark gray background
-  * 
-  */
-
-//celestial blue, maize, old lace, onyx, charleston green
-//export const colors = ["white", "#3E92CC", "#FFEC60", "#F7F5E6", "#333745", "#232630"];
-
-//stil de graine yellow, jet, beige, cafe noir, smokey black
-//export const colors = ["white", "#F5CB5C", "#333533", "#F5F7DC", "#4F3421", "#0D0A0B"];
-
 //maximum blue green, wild orchard, beige, maastricht blue 
-export const colors = ["white", "#2EC4B6", "#CE7DA5", "#F5F7DC", "#493657", "#493657"];
+export const colors = ["white", 
+"#3A332E", 
+"#D0CCA6",  
+"#F5F7DC", //good
+"#3A332E", //good
+"#231F1F"];
 
 /**********************************************************************/
 
 //0 is body, 1 is header, 2 is button
-export const fonts = ["Open Sans", "Julius Sans One", "Cabin Condensed", "Dosis"];
+export const fonts = ["Open Sans", "Amatic SC", "Open Sans", "Patrick Hand"];
 //export const fonts = ["Cutive Mono", "Ramabhadra", "Ramabhadra"];
 //export const fonts = ["V323", "Ultra", "Bebas Neue"];
 //export const fonts = ["Cutive Mono", "Permanent Marker", "Roboto"];
@@ -93,9 +85,7 @@ export const useCommonStyles = makeStyles({
   /* Item Card Styles  ************************************************/
   containerDiv: {
     display: 'flex',
-    flexFlow: "row wrap",
-    marginTop: '5em',
-    marginBottom: '5em'
+    flexFlow: "row",
   },
   itemDiv: {
     flex: '30%',

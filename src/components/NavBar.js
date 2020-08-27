@@ -73,6 +73,7 @@ const useStyles = makeStyles({
     }
   },
   navBtn: {
+    fontSize: '1.1em',
     marginBottom: '0.5em',
     color: colors[4],
     backgroundColor: colors[3],
