@@ -19,6 +19,12 @@ import Home from "./pages/Home/Home";
 import Login from "./pages/Login/Login";
 import Signup from "./pages/Signup/Signup";
 import Redirect from "./pages/Redirect/Redirect";
+import Browse from "./pages/Browse/Browse";
+import Single from "./pages/Single/Single";
+import Edit from "./pages/Edit/Edit";
+import Create from "./pages/Create/Create";
+
+
 import Comments from "./components/Comments";
 
 import share from "./assets/share.jpg";
@@ -30,6 +36,27 @@ import { isIos, isInStandaloneMode } from './services/utils';
 
 
 const routes = [
+  {
+    path: "/browse",
+    name: "Browse",
+    Component: Browse,
+    bgType: 1
+  },
+  { path: "/create", 
+    name: "Create", 
+    Component: Create, 
+    bgType: 3
+  },
+  { path: "/:type/:urlId/edit", 
+    name: "Edit", 
+    Component: Edit, 
+    bgType: 3 
+  },
+  { path: "/:type/:urlId", 
+    name: "Single", 
+    Component: Single, 
+    bgType: 1
+  },
   { path: "/profile/:username", 
     name: "My Profile", 
     Component: Profile, 

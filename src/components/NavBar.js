@@ -266,11 +266,14 @@ function NavBar() {
   };
 
   const loggedInRoutes = [
+    { path: "/browse", name: "Browse", icon: <MenuBookRoundedIcon/> },
+    { path: "/create", name: "Create", icon: <DescriptionRoundedIcon/> },
     { path: "/profile/" + username, name: "Profile", icon: <PersonRoundedIcon />, isLogOut: false },
     { path: "/", name: "Logout", icon: <SupervisorAccountRoundedIcon/>, isLogOut: true },
   ];
 
   const loggedOutRoutes = [
+    { path: "/browse", name: "Browse", icon: <MenuBookRoundedIcon/> },
     { path: "/login", name: "Login", icon: <SupervisorAccountRoundedIcon/> },
     { path: "/signup", name: "Signup", icon: <SupervisorAccountRoundedIcon/> },
   ];

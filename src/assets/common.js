@@ -73,19 +73,13 @@ export const useCommonStyles = makeStyles({
     marginBottom: '6em'
   },
   pageHeader: {
-    fontSize: '1.5em',
+    fontSize: '3em',
     fontFamily: fonts[1],
-    backgroundColor: colors[3],
-    border: 'solid 2px ' + colors[3],
-    borderRadius: '5px',
-    boxShadow: '5px 5px 5px 5px ' + colors[4],
-    padding: '1em',
-    marginRight: '1em',
   },
   /* Item Card Styles  ************************************************/
   containerDiv: {
     display: 'flex',
-    flexFlow: "row",
+    flexFlow: "row wrap",
   },
   itemDiv: {
     flex: '30%',

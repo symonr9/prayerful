@@ -70,11 +70,21 @@ const Signup = () => {
   const { handleSubmit } = useForm();
 
   const [email, setEmail] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
   const handleEmailChange = event => {
     setEmail(event.target.value);
+  };
+
+  const handleFirstNameChange = event => {
+    setFirstName(event.target.value);
+  };
+
+  const handleLastNameChange = event => {
+    setLastName(event.target.value);
   };
 
   const handleUsernameChange = event => {
@@ -84,7 +94,6 @@ const Signup = () => {
   const handlePasswordChange = event => {
     setPassword(event.target.value);
   };
-
 
   /**********************************************************************
   * Function Name: onSubmit
@@ -96,6 +105,8 @@ const Signup = () => {
   const onSubmit = () => {
     let data = {
       "email": email,
+      "firstName": firstName,
+      "lastName": lastName,
       "username": username,
       "password": password
     };
@@ -119,13 +130,14 @@ const Signup = () => {
     <Grid container>
       <Grid item xs={12}>
       {!isMobileView && (<div className={common.spacingTop}></div>)}
-        <br/>
         <h1 className={common.pageHeader}>Signup</h1>
       </Grid>
       <Grid item xs={12}>
         <div className={`${common.formAnimation} ${classes.spacingBottom}`}>
           <form onSubmit={handleSubmit(onSubmit)}>
             {basicTextField("email", "Email", handleEmailChange)}
+            {basicTextField("firstName", "First Name", handleFirstNameChange)}
+            {basicTextField("lastName", "Last Name", handleLastNameChange)}
             {basicTextField("username", "Username", handleUsernameChange)}
             {passwordTextField("password", "Password", handlePasswordChange)}
             {submitBtn("Sign Up")}
