@@ -83,28 +83,9 @@ const Home = () => {
               <Button className={classes.homeBtn} variant="filled">Ask for prayer</Button>
               <Button className={classes.homeBtn} variant="filled">Pray for someone</Button>
 
-              <div className={common.containerDiv}>
-                {(prayers &&
-                  prayers.map((prayer, index) => {
-                      return (
-                        <Paper className={`${classes.homePaper} ${(!isMobileView && classes.paperSmall || (isMobileView && classes.mobilePaperAnimation))}`} elevation="12">
-                            <div> {prayer.text} </div>
-                            {prayer.notes}<br/>
-                            {prayer.groups}<br/>
-                            {prayer.image}<br/>
-                            {prayer.type}<br/>
-                            {prayer.isPublic}<br/>
-                            {prayer.createdBy}<br/>
-                          </Paper>
-                      );
-                  })) ||
-                  (!prayers && (
-                    <div>
-                      <CircularProgress />
-                    </div>
-                  ))
-                }
-              </div>
+              <br/><br/><br/><br/>
+              
+              <br/><br/><br/><br/>
             </div>
       </Grid>
     </Grid>

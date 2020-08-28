@@ -283,7 +283,7 @@ function NavBar() {
     <div>
       <span className={!isMobileView && (isScrolledDown ? classes.isScrolledDown : classes.isScrolledUp)}>
         <NavLink to={"/"}>
-          <Button style={{ fontFamily: fonts[2] }} className={!isMobileView ? classes.navBtn : classes.mobileNavBtn} variant="contained">
+          <Button style={{ fontFamily: fonts[3] }} className={!isMobileView ? classes.navBtn : classes.mobileNavBtn} variant="contained">
             <HomeRounded />
             Home
           </Button>
@@ -291,7 +291,7 @@ function NavBar() {
         {isLoggedIn && (
           loggedInRoutes.map(({ path, name, icon, isLogOut }) => (
             <NavLink to={path} key={name}>
-              <Button style={{ fontFamily: fonts[2] }} className={!isMobileView ? classes.navBtn : classes.mobileNavBtn} variant="contained" onClick={(isLogOut && handleLogoutBtnClick || placeholderClick)}>
+              <Button style={{ fontFamily: fonts[3] }} className={!isMobileView ? classes.navBtn : classes.mobileNavBtn} variant="contained" onClick={(isLogOut && handleLogoutBtnClick || placeholderClick)}>
                 {icon}
                 {name}
               </Button>
@@ -302,7 +302,7 @@ function NavBar() {
         !isLoggedIn && (
           loggedOutRoutes.map(({ path, name, icon }) => (
             <NavLink to={path} key={name}>
-              <Button style={{ fontFamily: fonts[2] }} className={!isMobileView ? classes.navBtn : classes.mobileNavBtn} variant="contained">
+              <Button style={{ fontFamily: fonts[3] }} className={!isMobileView ? classes.navBtn : classes.mobileNavBtn} variant="contained">
                 {icon}
                 {name}
               </Button>
@@ -312,7 +312,7 @@ function NavBar() {
         }
 
         {isAdmin && (<NavLink to={"/admin"}>
-          <Button style={{ fontFamily: fonts[2] }} className={!isMobileView ? classes.navBtn : classes.mobileNavBtn} variant="contained">
+          <Button style={{ fontFamily: fonts[3] }} className={!isMobileView ? classes.navBtn : classes.mobileNavBtn} variant="contained">
             <PersonRoundedIcon />
             Admin
           </Button>

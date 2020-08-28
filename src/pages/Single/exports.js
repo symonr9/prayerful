@@ -181,7 +181,7 @@ export const useStyles = makeStyles({
         }
     }, 
     body: {
-        fontFamily: fonts[3],
+        fontFamily: fonts[2],
         textAlign: 'center',
         borderRadius: '0.5em',
         boxShadow: '5px 5px 5px 5px ' + colors[4],

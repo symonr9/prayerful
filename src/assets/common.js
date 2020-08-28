@@ -33,7 +33,7 @@ export const colors = ["white",
 /**********************************************************************/
 
 //0 is body, 1 is header, 2 is button
-export const fonts = ["Open Sans", "Amatic SC", "Open Sans", "Patrick Hand"];
+export const fonts = ["Open Sans", "Nothing You Could Do", "Open Sans", "Unica One"];
 //export const fonts = ["Cutive Mono", "Ramabhadra", "Ramabhadra"];
 //export const fonts = ["V323", "Ultra", "Bebas Neue"];
 //export const fonts = ["Cutive Mono", "Permanent Marker", "Roboto"];
@@ -130,8 +130,8 @@ export const useCommonStyles = makeStyles({
     whiteSpace: 'pre-wrap',
   },
   createdBy: {
-    fontFamily: fonts[0],
-    fontSize: '0.8em',
+    fontFamily: fonts[1],
+    fontSize: '1.2em',
     display: 'block',
     color: colors[5] + " !important",
 

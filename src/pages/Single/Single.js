@@ -154,10 +154,10 @@ function Single() {
       <br/>
       <center>
         <NavLink to={`/${type}/${urlId}/edit`}>
-            <Button variant="contained" style={{ fontFamily: fonts[2] }}>Edit</Button>
+            <Button variant="contained" style={{ fontFamily: fonts[3] }}>Edit</Button>
           </NavLink>
             &nbsp;&nbsp;&nbsp;
-            <Button variant="contained" color="secondary" style={{ fontFamily: fonts[2] }} 
+            <Button variant="contained" color="secondary" style={{ fontFamily: fonts[3] }} 
             onClick={handleDeleteBtnClick}>Delete</Button>
             {isDeleteConfim && 
               <div>
