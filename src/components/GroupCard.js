@@ -11,7 +11,7 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
 
-import { Paper } from "@material-ui/core";
+import { Button, Paper } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 
 import ReactTimeAgo from 'react-time-ago';
@@ -53,6 +53,7 @@ export const useStyles = makeStyles({
         backgroundSize: 'cover',
     },
     groupDiv: {
+        position: 'relative',
         width: '400px',
         height: '300px',
         marginRight: '1em',
@@ -82,6 +83,13 @@ export const useStyles = makeStyles({
             color: colors[2],
           }
         },
+    },
+    button: {
+        position: 'absolute',
+        bottom: '1em',
+        right: '1em',
+        backgroundColor: colors[2],
+        fontFamily: fonts[2],
     }
 });
 
@@ -118,6 +126,10 @@ const GroupCard = params => {
 
     };
 
+    const button = (
+        <Button className={classes.button} variant="outlined">Learn More</Button>
+    );
+
     console.log("image: " + params.image);
 
     //Different JSX elemnts are rendered based on GroupCard type.
@@ -130,6 +142,7 @@ const GroupCard = params => {
             {nameSection}<br/>
             {leaderNameSection}<br/><br/>
             {aboutSection}
+            {button}
         </Paper>
     );
 }
