@@ -14,6 +14,8 @@ import { NavLink } from "react-router-dom";
 import { Paper } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 
+import AddBoxIcon from '@material-ui/icons/AddBox';
+
 import ReactTimeAgo from 'react-time-ago';
 /**********************************************************************/
 
@@ -35,6 +37,36 @@ export const useStyles = makeStyles({
       display: 'block',
       marginBottom: '1em',
     },
+    itemDiv: {
+        flex: '30%',
+        padding: '10px',
+        width: '100px',
+        marginRight: '1em',
+        marginBottom: '1em',
+        "& a": {
+          textDecoration: 'none',
+          color: colors[4],
+          "& :hover": {
+            color: colors[2]
+          }
+        }
+      },
+      mobileItemDiv: {
+        flex: '100%',
+        padding: '10px',
+        width: '90%',
+        marginLeft: '1em',
+        marginRight: '1em',
+        marginTop: '1em',
+        marginBottom: '1em',
+        "& a": {
+          textDecoration: 'none',
+          color: colors[4],
+          "& :hover": {
+            color: colors[2],
+          }
+        },
+      },
 });
 
 
@@ -101,13 +133,14 @@ const ItemCard = params => {
         <Paper
         key={params.key}
         elevation={7}
-        className={`${(!params.isMobileView && common.itemDiv || (params.isMobileView && common.mobileItemDiv))}`}>
+        className={`${(!params.isMobileView && classes.itemDiv || (params.isMobileView && classes.mobileItemDiv))}`}>
             {(type === "prayers" || type === "prose") && titleSection}
             {(type === "prayers" || type === "prose") && createdBySection}
             {(type === "quotes") && textSection}
             {(type === "quotes") && authorSection}
             {(type === "prayers" || type === "prose") && bodySection}
-            {createdAtSection}  
+            {createdAtSection}
+            <AddBoxIcon /> Add to Prayers
         </Paper>
     );
 }

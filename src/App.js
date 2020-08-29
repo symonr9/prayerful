@@ -23,7 +23,7 @@ import Browse from "./pages/Browse/Browse";
 import Single from "./pages/Single/Single";
 import Edit from "./pages/Edit/Edit";
 import Create from "./pages/Create/Create";
-
+import Groups from "./pages/Groups/Groups";
 
 import Comments from "./components/Comments";
 
@@ -57,6 +57,11 @@ const routes = [
     Component: Single, 
     bgType: 1
   },
+  { path: "/groups", 
+    name: "Groups", 
+    Component: Groups, 
+    bgType: 1
+  },  
   { path: "/profile/:username", 
     name: "My Profile", 
     Component: Profile, 

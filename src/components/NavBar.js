@@ -20,11 +20,12 @@ import { makeStyles } from "@material-ui/core/styles";
 import HomeRounded from "@material-ui/icons/HomeRounded";
 import PersonRoundedIcon from "@material-ui/icons/PersonRounded";
 import MenuBookRoundedIcon from "@material-ui/icons/MenuBookRounded";
-import FormatQuoteRoundedIcon from "@material-ui/icons/FormatQuoteRounded";
-import AddCircleOutlineRoundedIcon from "@material-ui/icons/AddCircleOutlineRounded";
 import SupervisorAccountRoundedIcon from '@material-ui/icons/SupervisorAccountRounded';
-import DescriptionRoundedIcon from '@material-ui/icons/DescriptionRounded';
 import ArrowBackRoundedIcon from '@material-ui/icons/ArrowBackRounded';
+import GroupIcon from '@material-ui/icons/Group';
+import CreateIcon from '@material-ui/icons/Create';
+import ForumIcon from '@material-ui/icons/Forum';
+
 
 import { slide as Menu } from "react-burger-menu";
 /**********************************************************************/
@@ -265,9 +266,11 @@ function NavBar() {
   const placeholderClick = () => {
   };
 
+
   const loggedInRoutes = [
-    { path: "/browse", name: "Browse", icon: <MenuBookRoundedIcon/> },
-    { path: "/create", name: "Create", icon: <DescriptionRoundedIcon/> },
+    { path: "/browse", name: "Browse", icon: <ForumIcon/> },
+    { path: "/create", name: "Create", icon: <CreateIcon/> },
+    { path: "/groups", name: "Groups", icon: <GroupIcon/> },
     { path: "/profile/" + username, name: "Profile", icon: <PersonRoundedIcon />, isLogOut: false },
     { path: "/", name: "Logout", icon: <SupervisorAccountRoundedIcon/>, isLogOut: true },
   ];

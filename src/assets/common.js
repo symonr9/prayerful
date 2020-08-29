@@ -61,9 +61,6 @@ export const useCommonStyles = makeStyles({
     justifyContent: "center",
     marginLeft: "1em"
   },
-  blankDiv: {
-    marginTop: "20em"
-  },
   formDiv: {
     "& > *": {
       marginTop: "0.5em"
@@ -80,36 +77,6 @@ export const useCommonStyles = makeStyles({
   containerDiv: {
     display: 'flex',
     flexFlow: "row wrap",
-  },
-  itemDiv: {
-    flex: '30%',
-    padding: '10px',
-    width: '100px',
-    marginRight: '1em',
-    marginBottom: '1em',
-    "& a": {
-      textDecoration: 'none',
-      color: colors[4],
-      "& :hover": {
-        color: colors[2]
-      }
-    }
-  },
-  mobileItemDiv: {
-    flex: '100%',
-    padding: '10px',
-    width: '90%',
-    marginLeft: '1em',
-    marginRight: '1em',
-    marginTop: '1em',
-    marginBottom: '1em',
-    "& a": {
-      textDecoration: 'none',
-      color: colors[4],
-      "& :hover": {
-        color: colors[2],
-      }
-    },
   },
   title: {
     fontFamily: fonts[1],
@@ -147,86 +114,5 @@ export const useCommonStyles = makeStyles({
     display: 'block',
     position: 'relative',
     bottom: '0'
-  },
-  altFont: {
-    fontFamily: fonts[0] + ' !important'
-  },
-  paperAnimation: {
-    textAlign: 'center',
-    borderRadius: '1em',
-    
-    animationName: '$paper-animation',
-    animationDuration: '1s',
-    animationFillMode: 'forwards',
-    animationTimingFunction: 'ease-in-out'
-  },
-  mobilePaperAnimation: {
-    textAlign: 'center',
-    borderRadius: '1em',
-    
-    animationName: '$mobile-paper-animation',
-    animationDuration: '1s',
-    animationFillMode: 'forwards',
-    animationTimingFunction: 'ease-in-out'
-  },
-  '@keyframes paper-animation': {
-    '0%': {
-        flex: '50%',
-        fontSize: '1.5em',
-        border: 'solid 0.025em #3E92CC',
-        backgroundColor: colors[2],
-    },  
-    '70%': {
-        flex: '20%',
-        fontSize: '0.75em',
-        padding: '1.5em',
-        border: 'solid 0.75em ' + colors[2],
-        backgroundColor: colors[3]
-    },
-    '100%': {
-        flex: '30%',
-        fontSize: '1em',
-        padding: '10px',
-        backgroundColor: colors[3],
-    }
-},
-'@keyframes mobile-paper-animation': {
-    '0%': {
-      flex: '100%',
-      fontSize: '2em',
-      border: 'solid 0.025em #3E92CC',
-      backgroundColor: colors[2],
-  },  
-  '70%': {
-      fontSize: '0.75em',
-      padding: '3em',
-      border: 'solid 0.75em ' + colors[2],
-      backgroundColor: colors[1]
-  },
-  '100%': {
-      width: '100px',
-      fontSize: '1em',
-      padding: '10px',
-      backgroundColor: colors[3],
-  }
-  },
-  formAnimation: {
-    borderRadius: '1em',
-    
-    animationName: '$form-animation',
-    animationDuration: '0s',
-    animationFillMode: 'forwards',
-    animationTimingFunction: 'ease-in-out'
-  },
-  '@keyframes form-animation': {
-    '0%': {
-        border: 'solid 1em ' + colors[1],
-    },  
-    '40%': {
-        margin: '4em',
-        border: 'solid 1em ' + colors[2],
-    },
-    '100%': {
-    }
   },
 });
