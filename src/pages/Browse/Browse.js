@@ -73,9 +73,17 @@ function Browse() {
  * Notes: None
  **********************************************************************/
   const fetchData = isSubscribed => {
+    if (isLoggedIn) {
+      getData(getServerURL("users/" + sessionUsername), response => {
+        if (isSubscribed) {
+          setUser(response[0]);
+        }
+      });
+    }
+
     getData(getServerURL("prayers"), response => {
       if (isSubscribed) {
-        const items = (response.sort((a,b) => {
+        let items = (response.sort((a,b) => {
           let aItem = new Date(a.createdAt).getTime();
           let bItem = new Date(b.createdAt).getTime();
   
@@ -92,14 +100,6 @@ function Browse() {
         setNumOfPages(Math.ceil(items.length / numOfItemsPerPage));
       }
     });
-
-    if (isLoggedIn) {
-      getData(getServerURL("users/" + sessionUsername), response => {
-        if (isSubscribed) {
-          setUser(response[0]);
-        }
-      });
-    }
   };
 
   //Run fetchData on the first render. When the second parameter is an 
@@ -109,7 +109,6 @@ function Browse() {
     isSubscribed && fetchData(isSubscribed);
     return () => (isSubscribed = false);
   }, []);
-
 
   //SORT FILTER BAR EFFECTS **************************************
   //These hooks are passed into the SortFilterBar component and used

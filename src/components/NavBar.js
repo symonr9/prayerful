@@ -17,6 +17,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Button } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 
+import PostAddIcon from '@material-ui/icons/PostAdd';
 import HomeRounded from "@material-ui/icons/HomeRounded";
 import PersonRoundedIcon from "@material-ui/icons/PersonRounded";
 import MenuBookRoundedIcon from "@material-ui/icons/MenuBookRounded";
@@ -25,6 +26,7 @@ import ArrowBackRoundedIcon from '@material-ui/icons/ArrowBackRounded';
 import GroupIcon from '@material-ui/icons/Group';
 import CreateIcon from '@material-ui/icons/Create';
 import ForumIcon from '@material-ui/icons/Forum';
+import FireplaceIcon from '@material-ui/icons/Fireplace';
 
 
 import { slide as Menu } from "react-burger-menu";
@@ -269,14 +271,16 @@ function NavBar() {
 
   const loggedInRoutes = [
     { path: "/browse", name: "Browse", icon: <ForumIcon/> },
-    { path: "/create", name: "Create", icon: <CreateIcon/> },
     { path: "/groups", name: "Groups", icon: <GroupIcon/> },
-    { path: "/profile/" + username, name: "Profile", icon: <PersonRoundedIcon />, isLogOut: false },
+    { path: "/create", name: "Add New", icon: <PostAddIcon/> },
+    { path: "/hub", name: "My Hub", icon: <FireplaceIcon/> },
+    { path: "/profile/" + username, name: "My Profile", icon: <PersonRoundedIcon />, isLogOut: false },
     { path: "/", name: "Logout", icon: <SupervisorAccountRoundedIcon/>, isLogOut: true },
   ];
 
   const loggedOutRoutes = [
     { path: "/browse", name: "Browse", icon: <MenuBookRoundedIcon/> },
+        { path: "/groups", name: "Groups", icon: <GroupIcon/> },
     { path: "/login", name: "Login", icon: <SupervisorAccountRoundedIcon/> },
     { path: "/signup", name: "Signup", icon: <SupervisorAccountRoundedIcon/> },
   ];

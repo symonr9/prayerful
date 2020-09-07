@@ -15,6 +15,7 @@ import NavBar from "./components/NavBar";
 import Footer from "./components/Footer";
 
 import Profile from "./pages/Profile/Profile";
+import Hub from "./pages/Hub/Hub";
 import Home from "./pages/Home/Home";
 import Login from "./pages/Login/Login";
 import Signup from "./pages/Signup/Signup";
@@ -62,6 +63,11 @@ const routes = [
     Component: Groups, 
     bgType: 1
   },  
+  { path: "/hub", 
+    name: "My Hub", 
+    Component: Hub, 
+    bgType: 1
+  },
   { path: "/profile/:username", 
     name: "My Profile", 
     Component: Profile, 
@@ -156,37 +162,45 @@ function App() {
   }, []);
   /**********************************************************************/
 
+  /**
+   *                     {name === "Single" && <div className={classes.bg}><Comments /></div>}
+   */
+
+
+  const mobileDiv = (
+    <div className={classes.bgMobile}>
+        {<span>
+          <center>
+            <p>Please follow these steps to install the app on your mobile device:</p>
+            <ul>
+              <li>Step 1: Click on your device's share button.
+                <br/><br/>
+                <img src={share} className={classes.shareImg} />
+              </li>
+              
+              <li>Step 2: Scroll down and select "Add to Home Screen".
+                <br/><br/>
+                <img src={homescreen} className={classes.homescreenImg} />
+              </li>
+
+              <li>Step 3: Click "Add" on the Top Right.
+                <br/><br/>
+                <img src={addhomescreen} className={classes.addhomescreenImg} />
+              </li>
+
+              <li>Step 4: Check the app out on your home page!
+              </li>
+            </ul>
+          </center>
+        </span>}
+      </div>
+  );
   return (
     <BrowserRouter>
       <Provider store={store}>
         {
           isMobileBrowserRender 
-          ? <div className={classes.bgMobile}>
-              {<span>
-                <center>
-                  <p>Please follow these steps to install the app on your mobile device:</p>
-                  <ul>
-                    <li>Step 1: Click on your device's share button.
-                      <br/><br/>
-                      <img src={share} className={classes.shareImg} />
-                    </li>
-                    
-                    <li>Step 2: Scroll down and select "Add to Home Screen".
-                      <br/><br/>
-                      <img src={homescreen} className={classes.homescreenImg} />
-                    </li>
-
-                    <li>Step 3: Click "Add" on the Top Right.
-                      <br/><br/>
-                      <img src={addhomescreen} className={classes.addhomescreenImg} />
-                    </li>
-
-                    <li>Step 4: Check the app out on your home page!
-                    </li>
-                  </ul>
-                </center>
-              </span>}
-            </div> 
+          ? mobileDiv 
           : <span>
               <NavBar />
               <Switch>
@@ -195,7 +209,6 @@ function App() {
                     <div className={((!isMobileView ? classes.bg : classes.bgMobile)) }>    
                       <Component />
                     </div>
-                    {name === "Single" && <div className={classes.bg}><Comments /></div>}
                   </Route>
                 ))}
               </Switch>
