@@ -10,6 +10,6 @@ export const useStyles = makeStyles({
     containerDiv: {
         display: 'flex',
         flexFlow: "row wrap",
-        
+        justifyContent: 'space-evenly'
     }
 });

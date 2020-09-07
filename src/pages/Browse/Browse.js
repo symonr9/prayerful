@@ -199,6 +199,18 @@ function Browse() {
   }, [searchChange]);
   
 
+  const handlePrayersChange = (index, id, shouldAdd)=> {
+    let newUser = {...user};
+
+    if (shouldAdd) {
+      newUser.prayers.push(id);
+    } else {
+      let index = newUser.prayers.indexOf(id);
+      newUser.prayers.splice(index, 1);
+    }
+
+    setUser(newUser);
+  }
 
   /* PAGINATION *********************************************************/
   const [page, setPage] = useState(1);
@@ -217,7 +229,7 @@ function Browse() {
       }
       setCurrentPage(prayers.slice(startIndex, startIndex + numOfItemsPerPage));
     }
-  }, [page, sortTitle, sortAuthor, sortDate, sortRandom, searchChange, prayers, numOfItemsPerPage]);
+  }, [page, sortTitle, sortAuthor, sortDate, sortRandom, searchChange, prayers, user, numOfItemsPerPage]);
 
   useEffect(() => {
     if(prayers !== null){
@@ -265,6 +277,9 @@ function Browse() {
           setCurrentPage={setCurrentPage}
           isMobileView={isMobileView}
         />
+        <div>
+          {user && JSON.stringify(user.prayers)}
+        </div>
         <div className={classes.containerDiv}>
           {(currentPage &&
             currentPage.map((prayer, index) => {
@@ -274,6 +289,7 @@ function Browse() {
                     type={"prayers"}
                     key={prayer._id}
                     id={prayer._id}
+                    index={index}
                     isMobileView={isMobileView}
                     link={`/prayers/${prayer.urlId}`}
                     title={prayer.title}
@@ -288,6 +304,7 @@ function Browse() {
                     isLoggedIn={isLoggedIn}
                     userId={user && user._id}
                     isUserPrayer={user && user.prayers.includes(prayer._id)}
+                    handlePrayersChange={handlePrayersChange}
                   />
                 );
               }

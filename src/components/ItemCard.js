@@ -52,14 +52,19 @@ export const useStyles = makeStyles({
       display: 'block',
       color: colors[5] + " !important",
     },
+    bottomDiv: {
+      position: 'absolute',
+      bottom: '0.2em'
+    },
     itemDiv: {
+        position: 'relative',
         flex: '3 0 20%',
         padding: '10px',
         width: '100px',
         height: '300px',
         marginRight: '1em',
         marginBottom: '1em',
-        borderRadius: '2em',
+        borderRadius: '1.5em',
         "& a": {
           textDecoration: 'none',
           color: colors[4],
@@ -115,9 +120,6 @@ const ItemCard = params => {
     const common = useCommonStyles();
 
     const type = params.type;
-
-    const [isUserPrayer, setIsUserPrayer] = useState(params.isUserPrayer);  
-
 
     const titleSection = (
         <NavLink to={params.link}>
@@ -189,7 +191,7 @@ const ItemCard = params => {
           response => {
             console.log(response);
             setIsAddSnackbarOpen(true);
-            setIsUserPrayer(true);
+            params.handlePrayersChange(params.index, params.id, true);
           }
         );
       }
@@ -212,7 +214,7 @@ const ItemCard = params => {
           response => {
             console.log(response);
             setIsRemoveSnackbarOpen(true);
-            setIsUserPrayer(false);
+            params.handlePrayersChange(params.index, params.id, false);
           }
         );
       }
@@ -238,7 +240,7 @@ const ItemCard = params => {
 
     const detailedSection = (
       <div>
-                    {notesSection}<br/>
+            {notesSection}<br/>
             {groupsSection}<br/>
             {typeSection}<br/>
             {createdAtSection}<br/>
@@ -255,11 +257,14 @@ const ItemCard = params => {
         key={params.key}
         elevation={7}
         className={`${(!params.isMobileView && classes.itemDiv || (params.isMobileView && classes.mobileItemDiv))}`}>
+            {params.id}
             {titleSection}<br/>
             {createdBySection}<br/>
-            { ( params.isLoggedIn && isUserPrayer ) ? addToPrayersBtn : removeFromPrayersBtn }
-            <br/><br/>
             {bodySection}<br/>
+            <div className={classes.bottomDiv}>
+              { ( params.isLoggedIn && params.isUserPrayer ) ?  removeFromPrayersBtn : addToPrayersBtn }
+              <br/>{params.id}
+            </div>
           <Snackbar open={isAddSnackbarOpen} autoHideDuration={3000} onClose={handleAddClose}>
             <MuiAlert elevation={6} variant="filled" onClose={handleAddClose} severity="success">
               Added to prayers!
