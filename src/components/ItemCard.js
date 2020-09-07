@@ -53,7 +53,6 @@ export const useStyles = makeStyles({
       color: colors[5] + " !important",
     },
     bottomDiv: {
-      position: 'absolute',
       bottom: '0.2em'
     },
     itemDiv: {
@@ -93,6 +92,12 @@ export const useStyles = makeStyles({
           "& :hover": {
             color: colors[2],
           }
+        },
+        "&:nth-child(odd)": {
+          backgroundColor: colors[2]
+        },
+        "&:nth-child(even)": {
+          backgroundColor: colors[3]
         },
       },
 });
@@ -180,9 +185,10 @@ const ItemCard = params => {
         //type is defined based on the initial Select input value.
 
         let data = {
+          "command": "ADD PRAYER",
           "id": params.id
         };
-        let url = "users/add-prayer/" + params.userId;
+        let url = "users/edit/" + params.userId;
 
         //Post Request to UPDATE on the server.
         putData(
@@ -203,9 +209,10 @@ const ItemCard = params => {
         //type is defined based on the initial Select input value.
 
         let data = {
+          "command": "REMOVE PRAYER",
           "id": params.id
         };
-        let url = "users/remove-prayer/" + params.userId;
+        let url = "users/edit/" + params.userId;
 
         //Post Request to UPDATE on the server.
         putData(
