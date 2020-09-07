@@ -204,7 +204,7 @@ function Browse() {
   const [page, setPage] = useState(1);
   const [startIndex, setStartIndex] = useState(0);
   const [numOfPages, setNumOfPages] = useState(1);
-  const [numOfItemsPerPage, setNumOfItemsPerPage] = useState(9);
+  const [numOfItemsPerPage, setNumOfItemsPerPage] = useState(8);
   const [currentPage, setCurrentPage] = useState(null);
 
   //Executes whenever page changes.
@@ -265,11 +265,7 @@ function Browse() {
           setCurrentPage={setCurrentPage}
           isMobileView={isMobileView}
         />
-        <div>
-          {user && JSON.stringify(user)}
-          <br/><br/>
-        </div>
-        <div className={common.containerDiv}>
+        <div className={classes.containerDiv}>
           {(currentPage &&
             currentPage.map((prayer, index) => {
               if (prayer.isPublic) {

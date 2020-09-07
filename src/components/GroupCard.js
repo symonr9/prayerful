@@ -66,7 +66,13 @@ export const useStyles = makeStyles({
           }
         },
         paddingLeft: '0.3em',
-        marginTop: '1em'
+        marginTop: '1em',
+        ":nth-child(odd)": {
+          backgroundColor: '#55BBE9'
+        },
+        ":nth-child(even)": {
+          backgroundColor: '#afbe29'
+        },
     },
     mobileGroupDiv: {
         flex: '100%',

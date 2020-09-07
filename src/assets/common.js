@@ -101,7 +101,6 @@ export const useCommonStyles = makeStyles({
     fontSize: '1.2em',
     display: 'block',
     color: colors[5] + " !important",
-
   },
   smallText: {
     fontFamily: fonts[1],

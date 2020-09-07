@@ -228,10 +228,10 @@ const SortFilterBar = params => {
     );
 
     const numOfItemsOptions = [
-        {value: 9, label: '9'}, 
-        {value: 18, label: '18'}, 
-        {value: 27, label: '27'}, 
-        {value: 45, label: '45'}
+        {value: 8, label: '8'}, 
+        {value: 16, label: '16'}, 
+        {value: 24, label: '24'}, 
+        {value: 32, label: '32'}
     ];
 
     const numOfItemsPerPageSelect = (

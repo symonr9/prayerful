@@ -35,33 +35,44 @@ import { getServerURL } from "../config/config";
 /**********************************************************************/
 
 export const useStyles = makeStyles({
-    text: {
-      marginTop: '0.1em',
-      fontSize: '1.1em',
+    title: {
+      marginTop: '1em',
+      fontFamily: fonts[1],
+      fontSize: '1.3em',
       display: 'block',
-      fontStyle: 'italic',
-      whiteSpace: 'pre-wrap',
+      fontWeight: 'bold',
+      color: colors[5] + " !important",
+      "& :hover": {
+        color: colors[4] + " !important"
+      }
     },
-    author: {
+    createdBy: {
+      fontFamily: fonts[1],
       fontSize: '1em',
       display: 'block',
-      marginBottom: '1em',
+      color: colors[5] + " !important",
     },
     itemDiv: {
-        flex: '20%',
+        flex: '3 0 20%',
         padding: '10px',
         width: '100px',
         height: '300px',
-        overflowY: 'scroll',
         marginRight: '1em',
         marginBottom: '1em',
+        borderRadius: '2em',
         "& a": {
           textDecoration: 'none',
           color: colors[4],
           "& :hover": {
             color: colors[2]
           }
-        }
+        },
+        "&:nth-child(odd)": {
+          backgroundColor: colors[2]
+        },
+        "&:nth-child(even)": {
+          backgroundColor: colors[3]
+        },
       },
       mobileItemDiv: {
         flex: '100%',
@@ -110,13 +121,13 @@ const ItemCard = params => {
 
     const titleSection = (
         <NavLink to={params.link}>
-            <span className={common.title}>{params.title}</span>
+            <span className={classes.title}>{params.title}</span>
         </NavLink>
     );
 
     const createdBySection = (
         <NavLink to={"/profile" + "/" + params.createdBy}>
-            <span className={common.createdBy}>
+            <span className={classes.createdBy}>
                 By {params.createdBy}
             </span>
         </NavLink>  
@@ -225,6 +236,19 @@ const ItemCard = params => {
       </Button>
     );
 
+    const detailedSection = (
+      <div>
+                    {notesSection}<br/>
+            {groupsSection}<br/>
+            {typeSection}<br/>
+            {createdAtSection}<br/>
+            user id: {params.userId}<br/>
+            type: {params.type}<br/>
+            image: {params.image}<br/>
+            isLoggedIn? {params.isLoggedIn}<br/><br/>
+      </div>
+    );
+
     //Different JSX elemnts are rendered based on ItemCard type.
     return (
         <Paper
@@ -233,18 +257,9 @@ const ItemCard = params => {
         className={`${(!params.isMobileView && classes.itemDiv || (params.isMobileView && classes.mobileItemDiv))}`}>
             {titleSection}<br/>
             {createdBySection}<br/>
-            {bodySection}<br/>
-            {notesSection}<br/>
-            {groupsSection}<br/>
-            {typeSection}<br/>
-            {createdAtSection}<br/>
-            user id: {params.userId}<br/>
-            type: {params.type}<br/>
-            image: {params.image}<br/>
-            isLoggedIn? {params.isLoggedIn}<br/><br/>
-
             { ( params.isLoggedIn && isUserPrayer ) ? addToPrayersBtn : removeFromPrayersBtn }
-
+            <br/><br/>
+            {bodySection}<br/>
           <Snackbar open={isAddSnackbarOpen} autoHideDuration={3000} onClose={handleAddClose}>
             <MuiAlert elevation={6} variant="filled" onClose={handleAddClose} severity="success">
               Added to prayers!
