@@ -127,7 +127,9 @@ const GroupCard = params => {
     };
 
     const button = (
+      <NavLink to={params.link}>
         <Button className={classes.button} variant="outlined">Learn More</Button>
+      </NavLink>
     );
 
     console.log("image: " + params.image);

@@ -8,6 +8,8 @@
 
 /* Library Imports ****************************************************/
 import React, { useEffect, useState } from "react";
+import { NavLink, useParams, useHistory } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 import { Grow, Grid, CircularProgress } from "@material-ui/core";
 /**********************************************************************/
@@ -32,11 +34,22 @@ import { useStyles } from "./exports";
  * Notes: None
  **********************************************************************/
 function Browse() {
+  /* Authentication Handling ********************************************/
+  const sessionUsername = useSelector(state => state.username);
+
+  //!! checks for undefined, null, and empty values
+  const isLoggedIn = !!sessionUsername;
+
+  const history = useHistory();
+  /**********************************************************************/
+
+    
   const classes = useStyles();
   const common = useCommonStyles();
 
   //Data type for these hooks are arrays.
   const [prayers, setPrayers] = useState(null);
+  const [user, setUser] = useState(null);
 
   /* Mobile View Handler ************************************************/
   const [isMobileView, setIsMobileView] = useState(
@@ -62,14 +75,31 @@ function Browse() {
   const fetchData = isSubscribed => {
     getData(getServerURL("prayers"), response => {
       if (isSubscribed) {
-        const items = response.sort(() => {
-          return 0.5 - Math.random();
-        });
+        const items = (response.sort((a,b) => {
+          let aItem = new Date(a.createdAt).getTime();
+          let bItem = new Date(b.createdAt).getTime();
+  
+          let isDesc = sortDescDate;
+          setSortDescDate(!sortDescDate);
+          
+          if(isDesc){
+            return (aItem > bItem) ? -1 : (aItem < bItem) ? 1 : 0;
+          }
+          return (aItem < bItem) ? -1 : (aItem > bItem) ? 1 : 0;
+        }));
         setPrayers(items);
         setCurrentPage(items.slice(0, numOfItemsPerPage));
         setNumOfPages(Math.ceil(items.length / numOfItemsPerPage));
       }
     });
+
+    if (isLoggedIn) {
+      getData(getServerURL("users/" + sessionUsername), response => {
+        if (isSubscribed) {
+          setUser(response[0]);
+        }
+      });
+    }
   };
 
   //Run fetchData on the first render. When the second parameter is an 
@@ -235,6 +265,10 @@ function Browse() {
           setCurrentPage={setCurrentPage}
           isMobileView={isMobileView}
         />
+        <div>
+          {user && JSON.stringify(user)}
+          <br/><br/>
+        </div>
         <div className={common.containerDiv}>
           {(currentPage &&
             currentPage.map((prayer, index) => {
@@ -243,6 +277,7 @@ function Browse() {
                   <ItemCard 
                     type={"prayers"}
                     key={prayer._id}
+                    id={prayer._id}
                     isMobileView={isMobileView}
                     link={`/prayers/${prayer.urlId}`}
                     title={prayer.title}
@@ -250,6 +285,13 @@ function Browse() {
                     body={(!isFullText && prayer.body.substring(0,200) + '...')
                     || (isFullText && prayer.text)}
                     createdAt={prayer.createdAt}
+                    notes = {prayer.notes}
+                    image={prayer.image}
+                    type={prayer.type}
+                    groups={prayer.groups}
+                    isLoggedIn={isLoggedIn}
+                    userId={user && user._id}
+                    isUserPrayer={user && user.prayers.includes(prayer._id)}
                   />
                 );
               }
@@ -259,6 +301,7 @@ function Browse() {
                 <CircularProgress />
               </div>
             ))}
+          </div>
             <CoolPagination 
               type={"prayers"}
               location={"bottom"}
@@ -272,7 +315,6 @@ function Browse() {
               setCurrentPage={setCurrentPage}
               isMobileView={isMobileView}
             />
-        </div>
       </Grid>
     </Grid>
   );

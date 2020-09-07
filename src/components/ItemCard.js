@@ -8,10 +8,17 @@
  **********************************************************************/
 
 /* Library Imports ****************************************************/
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
 import { NavLink } from "react-router-dom";
 
-import { Paper } from "@material-ui/core";
+import { useHistory } from "react-router-dom"; 
+import { useSelector } from "react-redux";
+
+import { Grow, Grid, TextField, Snackbar, IconButton  } from "@material-ui/core";
+import MuiAlert from '@material-ui/lab/Alert';
+
+import { Paper, Button } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 
 import AddBoxIcon from '@material-ui/icons/AddBox';
@@ -20,8 +27,11 @@ import ReactTimeAgo from 'react-time-ago';
 /**********************************************************************/
 
 /* Project Imports ****************************************************/
-import { colors, useCommonStyles } from "../assets/common";
+import { fonts, colors, useCommonStyles } from "../assets/common";
 
+import { getData, putData } from "../services/api";
+
+import { getServerURL } from "../config/config";
 /**********************************************************************/
 
 export const useStyles = makeStyles({
@@ -38,9 +48,11 @@ export const useStyles = makeStyles({
       marginBottom: '1em',
     },
     itemDiv: {
-        flex: '30%',
+        flex: '20%',
         padding: '10px',
         width: '100px',
+        height: '300px',
+        overflowY: 'scroll',
         marginRight: '1em',
         marginBottom: '1em',
         "& a": {
@@ -93,6 +105,9 @@ const ItemCard = params => {
 
     const type = params.type;
 
+    const [isUserPrayer, setIsUserPrayer] = useState(params.isUserPrayer);  
+
+
     const titleSection = (
         <NavLink to={params.link}>
             <span className={common.title}>{params.title}</span>
@@ -117,16 +132,98 @@ const ItemCard = params => {
         </span>
     );
 
-    const textSection = (
-        <NavLink to={params.link}>
-            <span className={classes.text}>"{params.text}"</span>
-        </NavLink>
+    const notesSection = (
+      <span>{params.notes}</span>
     );
 
-    const authorSection = (
-        <span className={classes.author}>-{params.author}</span>
+    const groupsSection = (
+      <span>{params.groups}</span>
     );
+
+    const typeSection = (
+      <span>{params.type}</span>
+    );
+
+    const [isAddSnackbarOpen, setIsAddSnackbarOpen] = useState(false);
   
+    const handleAddClose = (event, reason) => {
+      if (reason === 'clickaway') {
+        return;
+      }
+      setIsAddSnackbarOpen(false);
+    };
+
+    const [isRemoveSnackbarOpen, setIsRemoveSnackbarOpen] = useState(false);
+  
+    const handleRemoveClose = (event, reason) => {
+      if (reason === 'clickaway') {
+        return;
+      }
+      setIsRemoveSnackbarOpen(false);
+    };
+
+    const addPrayer = () => {
+      if(params.isLoggedIn){
+        //type is defined based on the initial Select input value.
+
+        let data = {
+          "id": params.id
+        };
+        let url = "users/add-prayer/" + params.userId;
+
+        //Post Request to UPDATE on the server.
+        putData(
+          getServerURL(url),
+          data,
+          response => {
+            console.log(response);
+            setIsAddSnackbarOpen(true);
+            setIsUserPrayer(true);
+          }
+        );
+      }
+      
+    };
+
+    const removePrayer = () => {
+      if(params.isLoggedIn){
+        //type is defined based on the initial Select input value.
+
+        let data = {
+          "id": params.id
+        };
+        let url = "users/remove-prayer/" + params.userId;
+
+        //Post Request to UPDATE on the server.
+        putData(
+          getServerURL(url),
+          data,
+          response => {
+            console.log(response);
+            setIsRemoveSnackbarOpen(true);
+            setIsUserPrayer(false);
+          }
+        );
+      }
+      
+    };
+
+    const addToPrayersBtn = (
+      <Button onClick={addPrayer}
+        variant="contained" 
+        size="small"
+        style={{ fontFamily: fonts[3] }}>
+          <AddBoxIcon /> Add to Prayers
+      </Button>
+    );
+    const removeFromPrayersBtn = (
+      <Button onClick={removePrayer}
+        variant="contained" 
+        size="small"
+        style={{ fontFamily: fonts[3] }}>
+          <AddBoxIcon /> Remove from Prayers
+      </Button>
+    );
 
     //Different JSX elemnts are rendered based on ItemCard type.
     return (
@@ -134,13 +231,30 @@ const ItemCard = params => {
         key={params.key}
         elevation={7}
         className={`${(!params.isMobileView && classes.itemDiv || (params.isMobileView && classes.mobileItemDiv))}`}>
-            {(type === "prayers" || type === "prose") && titleSection}
-            {(type === "prayers" || type === "prose") && createdBySection}
-            {(type === "quotes") && textSection}
-            {(type === "quotes") && authorSection}
-            {(type === "prayers" || type === "prose") && bodySection}
-            {createdAtSection}
-            <AddBoxIcon /> Add to Prayers
+            {titleSection}<br/>
+            {createdBySection}<br/>
+            {bodySection}<br/>
+            {notesSection}<br/>
+            {groupsSection}<br/>
+            {typeSection}<br/>
+            {createdAtSection}<br/>
+            user id: {params.userId}<br/>
+            type: {params.type}<br/>
+            image: {params.image}<br/>
+            isLoggedIn? {params.isLoggedIn}<br/><br/>
+
+            { ( params.isLoggedIn && isUserPrayer ) ? addToPrayersBtn : removeFromPrayersBtn }
+
+          <Snackbar open={isAddSnackbarOpen} autoHideDuration={3000} onClose={handleAddClose}>
+            <MuiAlert elevation={6} variant="filled" onClose={handleAddClose} severity="success">
+              Added to prayers!
+            </MuiAlert>
+          </Snackbar>
+          <Snackbar open={isRemoveSnackbarOpen} autoHideDuration={3000} onClose={handleRemoveClose}>
+            <MuiAlert elevation={6} variant="filled" onClose={handleRemoveClose} severity="success">
+              Removed from prayers!
+            </MuiAlert>
+          </Snackbar>
         </Paper>
     );
 }

@@ -23,7 +23,7 @@ import ViewStreamRoundedIcon from '@material-ui/icons/ViewStreamRounded';
 /**********************************************************************/
 
 /* Project Imports ****************************************************/
-import { postData } from "../../services/api";
+import { getData, postData } from "../../services/api";
 import { useStyles } from "./exports";
 import { colors, useCommonStyles } from "../../assets/common";
 import { getServerURL } from "../../config/config";
@@ -32,7 +32,9 @@ import {
   textFieldStyle,
   submitBtn,
   basicTextField,
-  selectTextField
+  selectTextField,
+  checkboxField,
+  TransferList
 } from "../../components/FormElements";
 /**********************************************************************/
 
@@ -73,34 +75,46 @@ function Create() {
   }, []);
   /**********************************************************************/
 
-  /* Hooks and Handlers For Forms ************************ */
-  const [type, setType] = useState("");
-  const [formInput, setFormInput] = useState(
-    <div></div>
-  );
-  
-  const handleTypeChange = event => {
-    setType(event.target.value);
+  //Data type for these hooks are arrays.
+  const [groups, setGroups] = useState(null);
 
-    types.map(({ value, formInput }) => {
-      if (value === event.target.value) {
-        setFormInput(formInput);
+
+  const fetchData = isSubscribed => {
+    getData(getServerURL("groups"), response => {
+      if (isSubscribed) {
+        setGroups(response);
       }
     });
   };
+
+  //Run fetchData on the first render. When the second parameter is an 
+  //empty array, the useEffect function will only be executed on page load.
+  useEffect(() => {
+    let isSubscribed = true;
+    isSubscribed && fetchData(isSubscribed);
+    return () => (isSubscribed = false);
+  }, []);
+
+
+
+  /* Hooks and Handlers For Forms ************************ */
 
   const [prayerTitle, setPrayerTitle] = useState("");
   const [prayerBody, setPrayerBody] = useState("");
   const [prayerType, setPrayerType] = useState("");
   const [prayerNotes, setPrayerNotes] = useState("");
+  const [prayerGroups, setPrayerGroups] = useState([]);
+  const [prayerImage, setPrayerImage] = useState("");
+  const [prayerIsPublic, setPrayerIsPublic] = useState(true);
 
-  const [quoteText, setQuoteText] = useState("");
-  const [quoteAuthor, setQuoteAuthor] = useState("");
+  const [groupName, setGroupName] = useState("");
+  const [groupAbout, setGroupAbout] = useState("");
+  const [groupNotes, setGroupNotes] = useState("");
+  const [groupLeaderName, setGroupLeaderName] = useState("");
+  const [groupImage, setGroupImage] = useState("");
+  const [groupType, setGroupType] = useState("");
+  const [groupIsPublic, setGroupIsPublic] = useState(true);
 
-  const [proseTitle, setProseTitle] = useState("");
-  const [proseBody, setProseBody] = useState("");
-
-  
   const handlePrayerTitleChange = event => {
     setPrayerTitle(event.target.value);
   };
@@ -117,20 +131,44 @@ function Create() {
     setPrayerNotes(event.target.value);
   };
 
-  const handleQuoteTextChange = event => {
-    setQuoteText(event.target.value);
+  const handlePrayerGroupsChange = event => {
+    setPrayerGroups(event.target.value);
   };
 
-  const handleQuoteAuthorChange = event => {
-    setQuoteAuthor(event.target.value);
+  const handlePrayerImageChange = event => {
+    setPrayerImage(event.target.value);
   };
 
-  const handleProseTitleChange = event => {
-    setProseTitle(event.target.value);
+  const handlePrayerIsPublicChange = event => {
+    setPrayerIsPublic(event.target.value);
   };
 
-  const handleProseBodyChange = event => {
-    setProseBody(event.target.value);
+  const handleGroupNameChange = event => {
+    setGroupName(event.target.value);
+  };
+
+  const handleGroupAboutChange = event => {
+    setGroupAbout(event.target.value);
+  };
+
+  const handleGroupNotesChange = event => {
+    setGroupNotes(event.target.value);
+  };
+
+  const handleGroupLeaderNameChange = event => {
+    setGroupLeaderName(event.target.value);
+  };
+
+  const handleGroupImageChange = event => {
+    setGroupImage(event.target.value);
+  };
+
+  const handleGroupTypeChange = event => {
+    setGroupType(event.target.value);
+  };
+
+  const handleGroupIsPublicChange = event => {
+    setGroupIsPublic(event.target.value);
   };
 
 
@@ -138,40 +176,56 @@ function Create() {
   const types = [
     {
       value: "prayers",
-      label: "compose a prayer",
+      label: "create a prayer",
       formInput: (
         <div>
           {basicTextField("prayerTitle", "Title", handlePrayerTitleChange)}
           {basicTextField("prayerBody", "Body", handlePrayerBodyChange, 8)}
-          {basicTextField("prayerType", "Type of your prayer", handlePrayerTypeChange)}
+          {basicTextField("prayerType", "Type", handlePrayerTypeChange)}
           {basicTextField("prayerNotes", "Notes", handlePrayerNotesChange, 2)}
-          {submitBtn("Publish")}
+          {basicTextField("prayerGroups", "Groups", handlePrayerGroupsChange, 2)}
+          {TransferList()}
+          
+          {basicTextField("prayerImage", "Image", handlePrayerImageChange)}
+          Is Public: {checkboxField("prayerIsPublic", prayerIsPublic, "Is Public", handlePrayerIsPublicChange)}
+          <br/>
+          {submitBtn("Create")}
         </div>
       )
     },
     {
-      value: "quotes",
-      label: "remember a quote",
+      value: "groups",
+      label: "add a group",
       formInput: (
         <div>
-          {basicTextField("quoteText", "A quote to remember", handleQuoteTextChange, 3)}
-          {basicTextField("quoteAuthor", "Who said it?", handleQuoteAuthorChange)}
-          {submitBtn("Publish")}
-        </div>
-      )
-    },
-    {
-      value: "prose",
-      label: "write some prose",
-      formInput: (
-        <div>
-          {basicTextField("proseTitle", "Title", handleProseTitleChange)}
-          {basicTextField("proseBody", "Body", handleProseBodyChange, 12)}
-          {submitBtn("Publish")}
+          {basicTextField("groupName", "Name", handleGroupNameChange)}
+          {basicTextField("groupAbout", "About", handleGroupAboutChange, 1)}
+          {basicTextField("groupNotes", "Description", handleGroupNotesChange, 4)}
+          {basicTextField("groupLeaderName", "Leader Name", handleGroupLeaderNameChange, 1)}
+          {basicTextField("groupImage", "Image", handleGroupImageChange)}
+          {basicTextField("groupType", "Type", handleGroupTypeChange)}
+          Is Public: {checkboxField("groupIsPublic", groupIsPublic, "Is Public", handleGroupIsPublicChange)}
+          <br/>
+          {submitBtn("Create")}
         </div>
       )
     },
   ];
+
+  const [type, setType] = useState("prayers");
+  const [formInput, setFormInput] = useState(
+    types[0].formInput
+  );
+  
+  const handleTypeChange = event => {
+    setType(event.target.value);
+
+    types.map(({ value, formInput }) => {
+      if (value === event.target.value) {
+        setFormInput(formInput);
+      }
+    });
+  };
   /******************************************************* */
 
   /* Hooks and Handlers for Submit Form ****************** */
@@ -187,17 +241,25 @@ function Create() {
 
   const clearForm = () => {
     document.getElementById("createForm").reset();
-    
+
+
     setPrayerTitle("");
     setPrayerBody("");
     setPrayerType("");
     setPrayerNotes("");
     
-    setQuoteText("");
-    setQuoteAuthor("");
-
-    setProseTitle("");
-    setProseBody("");
+    setPrayerGroups([]);
+    setPrayerImage("");
+    setPrayerIsPublic(true);
+    
+    setGroupName("");
+    setGroupAbout("");
+    setGroupNotes("");
+    setGroupLeaderName("");
+    setGroupImage("");
+    setGroupType("");
+    setGroupIsPublic("");
+    
   };
 
  /**********************************************************************
@@ -221,30 +283,25 @@ function Create() {
             "type": prayerType,
             "notes": prayerNotes,
             "createdBy": sessionUsername,
-            "isPublic": true
+            "isPublic": prayerIsPublic,
+            "groups": prayerGroups,
+            "image": prayerImage
           };
           url = "prayers/create";
 
           break;
-        case "quotes":
+        case "groups":
           data = {
-            "text": quoteText,
-            "author": quoteAuthor,
-            "createdBy": sessionUsername,
-            "isPublic": true
+            "name": groupName,
+            "about": groupAbout,
+            "notes": groupNotes,
+            "leaderName": groupLeaderName,
+            "image": groupImage,
+            "type": groupType,
+            "isPublic": groupIsPublic
           }; 
-          url = "quotes/create";
+          url = "groups/create";
         
-          break;
-        case "prose":
-          data = {
-            "title": proseTitle,
-            "body": proseBody,
-            "createdBy": sessionUsername,
-            "isPublic": true
-          };
-          url = "prose/create";
-
           break;
         default:
           console.log("Something went wrong..."); 
@@ -276,7 +333,7 @@ function Create() {
         <div className={`${(classes.formDiv)} ${common.formAnimation}`}>
         <form id="createForm" onSubmit={handleSubmit(onSubmit)}>
           {!isMobileView && (selectTextField(
-            "prayerType",
+            "type",
             "What would you like to do?",
             type,
             handleTypeChange,
@@ -284,7 +341,7 @@ function Create() {
             ||
             (isMobileView && (
               selectTextField(
-                "prayerType",
+                "type",
                 "Select type",
                 type,
                 handleTypeChange,

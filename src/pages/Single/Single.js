@@ -122,12 +122,8 @@ function Single() {
         case "prayers":
           url = "prayers/delete/" + _id;
           break;
-        case "quotes":
-          url = "quotes/delete/" + _id;
-          break;
-        case "prose":
-          url = "prose/delete/" + _id;
-          break;
+        case "groups":
+          url = "groups/delete/" + _id;
         default:
           console.log("Something went wrong..."); 
           return 0;
@@ -174,40 +170,64 @@ function Single() {
     </span>
   );
 
+  const prayerPage = data && (
+    <div className={classes.bgDiv}>
+      <span className={!isMobileView ? classes.title : classes.mobileTitle}>{data.title}</span>
+      <span className={classes.subheader}>
+        <span className={!isMobileView ? classes.author : classes.mobileAuthor}>
+          <NavLink to={"/profile" + "/" + data.createdBy}>
+            <span className={common.createdBy}>
+              By {data.createdBy}
+            </span>
+          </NavLink>  
+          created <ReactTimeAgo date={data.createdAt} />
+        </span>
+        {isValidUser && buttons}
+      </span>
+      <div className={!isMobileView ? classes.body : classes.mobileBody}>
+        {data.body}
+      </div>
+      <span className={classes.subheader}>
+        <span className={!isMobileView ? classes.notes : classes.mobileNotes}>
+          Type: {data.type} 
+          <br/><br/>
+          Notes: {data.notes}
+        </span>
+      </span>
+    </div>
+  );
+
+  const groupPage = data && (
+    <div className={classes.bgDiv}>
+      <span className={!isMobileView ? classes.title : classes.mobileTitle}>{data.name}</span>
+      <span className={classes.subheader}>
+        <span className={!isMobileView ? classes.author : classes.mobileAuthor}>
+            <span className={common.createdBy}>
+              Leader Name: {data.leaderName}
+            </span>  
+          created <ReactTimeAgo date={data.createdAt} />
+        </span>
+        {isValidUser && buttons}
+      </span>
+      <div className={!isMobileView ? classes.body : classes.mobileBody}>
+        {data.notes}
+      </div>
+      <span className={classes.subheader}>
+        <span className={!isMobileView ? classes.notes : classes.mobileNotes}>
+          Type: {data.type} 
+        </span>
+      </span>
+    </div>
+  );
+
   //Dynamically determine the body content for the form.
   const bodyContent = (
     <div>
       {
       (data 
-        && ( type === "prayers" && 
-              (
-                <div className={classes.bgDiv}>
-                  <span className={!isMobileView ? classes.title : classes.mobileTitle}>{data.title}</span>
-                  <span className={classes.subheader}>
-                    <span className={!isMobileView ? classes.author : classes.mobileAuthor}>
-                      <NavLink to={"/profile" + "/" + data.createdBy}>
-                        <span className={common.createdBy}>
-                          By {data.createdBy}
-                        </span>
-                      </NavLink>  
-                      created <ReactTimeAgo date={data.createdAt} />
-                    </span>
-                    {isValidUser && buttons}
-                  </span>
-                  <div className={!isMobileView ? classes.body : classes.mobileBody}>
-                    {data.body}
-                  </div>
-                  <span className={classes.subheader}>
-                    <span className={!isMobileView ? classes.notes : classes.mobileNotes}>
-                      Type: {data.type} 
-                      <br/><br/>
-                      Notes: {data.notes}
-                    </span>
-                  </span>
-                </div>
-              )
-              ||
-              (<div>Sorry, this does not exist.</div>)
+        && (   type === "prayers" && prayerPage
+            || type === "groups" && groupPage  
+            || (<div>Sorry, this does not exist.</div>)
             )
       )
       }

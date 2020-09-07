@@ -76,7 +76,7 @@ const Home = () => {
             <div className={classes.introText}>
               <h2>a little app to organize your prayers :)</h2>
               
-              <h2>What would you like to do?</h2>
+              <h2>What would you like to do??</h2>
 
 
               <Button className={classes.homeBtn} variant="filled">Join a group</Button>
