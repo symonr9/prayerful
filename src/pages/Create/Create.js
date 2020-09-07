@@ -212,7 +212,7 @@ function Create() {
     },
   ];
 
-  const [type, setType] = useState("prayers");
+  const [type, setType] = useState(types[0].value);
   const [formInput, setFormInput] = useState(
     types[0].formInput
   );

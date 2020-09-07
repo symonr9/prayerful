@@ -19,19 +19,14 @@ import { getData } from "../../services/api";
 import { useCommonStyles } from "../../assets/common";
 import { getServerURL } from "../../config/config";
 
+import {
+  selectTextField,
+} from "../../components/FormElements";
+
 import ItemCard from '../../components/ItemCard';
-import SortFilterBar from '../../components/SortFilterBar';
-import CoolPagination from '../../components/CoolPagination';
 
 import { useStyles } from "./exports";
 /**********************************************************************/
-
-
-const types = [
-  'saved prayers',
-  'own prayers',
-  'my groups'  
-];
 
 /**********************************************************************
  * Function Name: Hub
@@ -56,8 +51,6 @@ function Hub() {
   const [ownPrayers, setOwnPrayers] = useState(null);
   const [savedPrayers, setSavedPrayers] = useState(null);
   const [user, setUser] = useState(null);
-
-  const [viewType, setViewType] = useState(types[0]);
 
   /* Mobile View Handler ************************************************/
   const [isMobileView, setIsMobileView] = useState(
@@ -135,10 +128,11 @@ function Hub() {
   }
 
   const ownPrayersDiv = (
-    <div className={classes.containerDiv}>
-    {(ownPrayers &&
-      ownPrayers.map((prayer, index) => {
-        if (prayer.isPublic) {
+    <span>
+      <h1>Own Prayers</h1>
+      <div className={classes.containerDiv}>
+      {(ownPrayers &&
+        ownPrayers.map((prayer, index) => {
           return (
             <ItemCard 
               type={"prayers"}
@@ -161,21 +155,22 @@ function Hub() {
               handlePrayersChange={handlePrayersChange}
             />
           );
-        }
-      })) ||
-      (!ownPrayers && (
-        <div>
-          <CircularProgress />
-        </div>
-      ))}
-    </div>
+        })) ||
+        (!ownPrayers && (
+          <div>
+            <CircularProgress />
+          </div>
+        ))}
+      </div>
+    </span>
   );
 
   const savedPrayersDiv = (
-    <div className={classes.containerDiv}>
-    {(savedPrayers &&
-      savedPrayers.map((prayer, index) => {
-        if (prayer.isPublic) {
+    <span>
+      <h1>Saved Prayers</h1>
+      <div className={classes.containerDiv}>
+      {(savedPrayers &&
+        savedPrayers.map((prayer, index) => {
           return (
             <ItemCard 
               type={"prayers"}
@@ -198,29 +193,98 @@ function Hub() {
               handlePrayersChange={handlePrayersChange}
             />
           );
-        }
-      })) ||
-      (!ownPrayers && (
-        <div>
-          <CircularProgress />
-        </div>
-      ))}
+        })) ||
+        (!savedPrayers && (
+          <div>
+            <CircularProgress />
+          </div>
+        ))}
+      </div>
+    </span>
+  );
+
+  const groupsDiv = (
+    <div>
+      Groups div
+    </div>
+  );
+
+  const friendsDiv = (
+    <div>
+      Friends div
+    </div>
+  );
+
+  const landingDiv = (
+    <div>
+      {savedPrayersDiv}
     </div>
   );
  
+  const viewTypes = [
+
+    {
+      value: 'landing',
+      label: 'Central Hub',
+      view: (groupsDiv)
+    },
+    {
+      value: 'saved',
+      label: 'Saved Prayers',
+      view: (savedPrayersDiv)
+    },
+    {
+      value: 'own',
+      label: 'Own Prayers',
+      view: (ownPrayersDiv)
+    },
+    {
+      value: 'groups',
+      label: 'Groups',
+      view: (groupsDiv)
+    },
+    {
+      value: 'friends',
+      label: 'Friends',
+      view: (friendsDiv)
+    },
+  ];
+  
+  const [viewType, setViewType] = useState(viewTypes[0].value);
+  const [view, setView] = useState(
+    viewTypes[0].view
+  );
+
+  const handleViewTypeChange = event => {
+    setViewType(event.target.value);
+
+    viewTypes.map(({ value, view }) => {
+      if (value === event.target.value) {
+        setView(view);
+      }
+    });
+  };
+
   const body = (
     <Grid container>
       <Grid item xs={12}>
         <div className={common.spacingTop}></div>
         <h1 className={common.pageHeader}>Hub</h1>
-        <div>
-          {user && JSON.stringify(user.prayers)}
-        </div>
-        <h1>Own Prayers</h1>
-        {ownPrayersDiv}
-        <h1>Saved Prayers</h1>
-        {savedPrayersDiv}
-
+        <Grid item xs={4}>
+        {selectTextField(
+            "type",
+            "View:",
+            viewType,
+            handleViewTypeChange,
+            viewTypes
+          )}
+        </Grid>
+        <Grid item xs={8}>
+        </Grid>
+        <Grid item xs={12}>
+        {view}
+        {viewType == "landing" && (landingDiv)}
+        </Grid>
       </Grid>
     </Grid>
   );
